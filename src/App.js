@@ -1,34 +1,44 @@
 import { ThemeProvider } from '@material-ui/core';
-import './App.css';
 import { Header } from './components/Layout/Header';
 import { createMuiTheme } from '@material-ui/core/styles';
 import SearchContainer from './components/SearchContainer';
+import { Spinner } from './components/Spinner';
+import { LoadingProvider } from './contexts/LoadingContext';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import CreateContainer from './components/CreateContainer';
+import { PostsProvider } from './contexts/PostsContext';
 
 
-function App() {
-
-  const theme = createMuiTheme({
-    palette: {
-      primary: {
-        light: '#FFFFFF',
-        main: '#FFFFFF',
-        dark: '#b2b2b2',
-        contrastText: '#000',
-      },
-      secondary: {
-        light: '#8bcde9',
-        main: '#6EC1E4',
-        dark: '#4d879f',
-        contrastText: '#FFF',
-      },
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      light: '#FFFFFF',
+      main: '#FFFFFF',
+      dark: '#b2b2b2',
+      contrastText: '#717171',
     },
-  });
+    primary: {
+      light: '#8bcde9',
+      main: '#6EC1E4',
+      dark: '#4d879f',
+      contrastText: '#FFF',
+    },
+  },
+});
+function App() {
   return (
-    <ThemeProvider theme={theme} >
-      <div className="App">
+    <ThemeProvider theme={theme}>
+      <LoadingProvider>
         <Header />
-        <SearchContainer />
-      </div>
+        <PostsProvider>
+          <Switch>
+            <Route path="/post" component={CreateContainer} />
+            <Route exact path="/" component={SearchContainer} />
+            <Redirect to="/" />
+          </Switch>
+        </PostsProvider>
+        <Spinner />
+      </LoadingProvider>
     </ThemeProvider>
   );
 }

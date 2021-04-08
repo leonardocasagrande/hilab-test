@@ -1,12 +1,11 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import { NavLink } from 'react-router-dom';
 import { Logo } from "./Logo";
 import NavigationItems from "./NavigationItems";
 
 
 export function Header() {
     return (
-        <AppBar position="static">
+        <AppBar color="secondary" position="static">
             <Toolbar style={{ justifyContent: 'space-between' }} >
                 <div style={{display: 'flex'}}>
                     <Logo />

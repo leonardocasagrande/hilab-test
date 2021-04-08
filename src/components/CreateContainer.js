@@ -1,11 +1,11 @@
 import { Container } from "@material-ui/core";
-import PostList from "./PostList";
+import { PostData } from "./PostData";
 
-export default function SearchContainer() {
+export default function CreateContainer() {
     return (
         <main>
             <Container maxWidth="lg">
-                <PostList />
+                <PostData />
             </Container>
         </main>
     )
