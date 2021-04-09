@@ -6,3 +6,12 @@
 .Title {
     margin-bottom: 20px !important;
 }
+
+.Error {
+    color: #bf1650;
+}
+
+.Error::before {
+    display: inline;
+    content: "⚠ ";
+}

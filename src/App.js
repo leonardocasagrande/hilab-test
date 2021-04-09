@@ -7,6 +7,7 @@ import { LoadingProvider } from './contexts/LoadingContext';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import CreateContainer from './components/CreateContainer';
 import { PostsProvider } from './contexts/PostsContext';
+import UpdateContainer from './components/UpdateContainer';
 
 
 const theme = createMuiTheme({
@@ -32,7 +33,8 @@ function App() {
         <Header />
         <PostsProvider>
           <Switch>
-            <Route path="/post" component={CreateContainer} />
+            <Route path="/post/new" component={CreateContainer} />
+            <Route path="/post" component={UpdateContainer} />
             <Route exact path="/" component={SearchContainer} />
             <Redirect to="/" />
           </Switch>

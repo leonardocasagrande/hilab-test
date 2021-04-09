@@ -2,12 +2,12 @@ import classes from './NavigationItems.module.css'
 import {NavigationItem} from './NavigationItem'
 
 
-const navigationItems = (props) => (
+const navigationItems = () => (
     <ul className={classes.NavigationItems}>
         <NavigationItem exact link="/">
             Pesquisa
         </NavigationItem>
-        <NavigationItem  link="/post">
+        <NavigationItem exact link="/post/new">
             Adicionar
         </NavigationItem>
     </ul>

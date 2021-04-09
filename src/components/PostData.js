@@ -1,134 +1,140 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, MenuItem, Paper, TextField, Typography } from "@material-ui/core";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import 'date-fns';
+import React from 'react';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/pickers';
+
+
 import { PostsContext } from "../contexts/PostsContext";
 import SaveIcon from '@material-ui/icons/Save';
 import classes from './PostData.module.css';
+import { categoryOptions } from "../shared/categoryOptions";
+import { useForm, Controller } from "react-hook-form";
 
-const categoryOptions = [
-    { value: 1, label: 'Categoria 1' },
-    { value: 2, label: 'Categoria 2' },
-    { value: 3, label: 'Categoria 3' },
-    { value: 4, label: 'Categoria 4' },
-    { value: 5, label: 'Categoria 5' },
-]
+export const PostData = ({isEdit, post}) => {
 
-export const PostData = () => {
+    const { addPost, editPost } = useContext(PostsContext);
 
-    const { posts, getPost } = useContext(PostsContext);
-
-
-    const [post, setPost] = useState({
-        id: null,
-        title: '',
-        description: '',
-        date: '',
-        category: ''
-    })
-
-    const [isEdit, setIsEdit] = useState(false);
-
-    const setTitle = (value) => {
-        setPost({
-            ...post,
-            title: value
-        })
-    }
-
-    const setDescription = (value) => {
-        setPost({
-            ...post,
-            description: value
-        })
-    }
-
-    const setDate = (value) => {
-        console.log(value);
-        setPost({
-            ...post,
-            date: value
-        })
-    }
-
-    const setCategory = (value) => {
-        setPost({
-            ...post,
-            category: value
-        })
-    }
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm({
+        defaultValues: {
+            title: '',
+            description: '',
+            category: ''
+        }
+    });
 
     useEffect(() => {
-        const id = new URLSearchParams(window.location.search).get('id');
-        setIsEdit(false);
-        if (id && posts) {
-            const auxPost = getPost(id);
-            if (auxPost) {
-                setPost(getPost(id));
-                console.log(getPost(id));
-                setIsEdit(true);
-            } else {
-                console.log("Post not found")
-            }
+        if(post) {
+            reset(post)
         }
-    }, [getPost, posts])
+    }, [post])
+
+
+    const onSubmit = (data) => {
+        if (data.id) {
+            editPost(data);
+        } else {
+            addPost(data);
+        }
+    }
 
     return (
         <Paper className={classes.Paper} >
-            <Typography variant="h6" className={classes.Title}>
+            <Typography variant="h6" color="textSecondary" className={classes.Title}>
                 {isEdit ? 'Edit Post' : 'Add Post'}
             </Typography>
-            <form>
-                <TextField
-                    color="secondary"
-                    label="Titulo"
-                    fullWidth
-                    value={post.title}
-                    onChange={(event) => setTitle(event.target.value)}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                    name="title"
+                    rules={{ required: true }}
+                    control={control}
+                    render={({ field }) =>
+                        <TextField
+                            label="Título"
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            {...field} />}>
+
+                </Controller>
+                {errors?.title?.type === "required" && <p className={classes.Error}>Title is required</p>}
+                <Controller
+                    name="description"
+                    control={control}
+                    render={({ field }) =>
+                        <TextField
+                            label="Descrição"
+                            fullWidth
+                            multiline
+                            rows={7}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            {...field} />}>
+                </Controller>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Controller
+                        name="date"
+                        control={control}
+                        rules={{ required: true }}
+                        initialFocusedDate={null}
+                        defaultValue={null}
+                        render={({ field: { ref, ...rest } }) =>
+                            <KeyboardDatePicker
+                                margin="normal"
+                                label="Data"
+                                fullWidth
+                                format="dd/MM/yyyy"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                {...rest} />}>
+                    </Controller>
+                </MuiPickersUtilsProvider>
+                {errors?.date?.type === "required" && <p className={classes.Error}>Date is required</p>}
+                <Controller
+                    name="category"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) =>
+                        <TextField
+                            id="standard-select-currency"
+                            select
+                            fullWidth
+                            label="Categoria"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            {...field} >
+                            {categoryOptions.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>}
                 />
-                <TextField
-                    color="secondary"
-                    multiline
-                    label="Descrição"
-                    rows={7}
-                    fullWidth
-                    onChange={(event) => setDescription(event.target.value)}
-                    value={post.description} />
-                <TextField
-                    label="Data"
-                    type="date"
-                    value={post.date}
-                    color="secondary"
-                    onChange={(event) => setDate(event.target.value)}
-                    fullWidth
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />
-                <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Categoria"
-                    fullWidth
-                    value={post.category}
-                    onChange={(event) => setCategory(event.target.value)}
-                    helperText="Please select your category"
-                    color="secondary"
-                >
-                    {categoryOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <Button
-                style={{marginTop: '15px'}}
+                {errors?.category?.type === "required" && <p className={classes.Error}>Category is required</p>}
+
+                < Button
+                    style={{ marginTop: '15px' }}
                     variant="contained"
                     color="primary"
                     type="submit"
-                    onClick
-                    startIcon={<SaveIcon />}
-                >
+                    startIcon={<SaveIcon />}>
                     Save
                 </Button>
             </form>
-        </Paper>
+        </Paper >
     )
 }
