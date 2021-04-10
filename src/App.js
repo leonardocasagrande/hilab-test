@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@material-ui/core';
 import { Header } from './components/Layout/Header';
-import { createMuiTheme } from '@material-ui/core/styles';
 import SearchContainer from './components/SearchContainer';
 import { Spinner } from './components/Spinner';
 import { LoadingProvider } from './contexts/LoadingContext';
@@ -8,30 +7,16 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import CreateContainer from './components/CreateContainer';
 import { PostsProvider } from './contexts/PostsContext';
 import UpdateContainer from './components/UpdateContainer';
+import AlertContainer from './components/AlertContainer';
+import { theme } from './shared/theme'
 
-
-const theme = createMuiTheme({
-  palette: {
-    secondary: {
-      light: '#FFFFFF',
-      main: '#FFFFFF',
-      dark: '#b2b2b2',
-      contrastText: '#717171',
-    },
-    primary: {
-      light: '#8bcde9',
-      main: '#6EC1E4',
-      dark: '#4d879f',
-      contrastText: '#FFF',
-    },
-  },
-});
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <LoadingProvider>
         <Header />
         <PostsProvider>
+          <AlertContainer />
           <Switch>
             <Route path="/post/new" component={CreateContainer} />
             <Route path="/post" component={UpdateContainer} />

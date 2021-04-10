@@ -1,11 +1,15 @@
-import { Container } from "@material-ui/core";
+import { Container, Fade } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router";
 import { PostsContext } from "../contexts/PostsContext";
 import { PostData } from "./PostData";
 
 export default function UpdateContainer() {
-    const { posts, getPost } = useContext(PostsContext);
-    const [ post, setPost ] = useState(null);
+    const { posts, getPost, sendErrorMessage } = useContext(PostsContext);
+    const [post, setPost] = useState(null);
+    const history = useHistory();
+    const {t} = useTranslation('common');
     useEffect(() => {
         const id = new URLSearchParams(window.location.search).get('id');
         if (id && posts) {
@@ -13,15 +17,18 @@ export default function UpdateContainer() {
             if (auxPost) {
                 setPost(auxPost);
             } else {
-                console.log("Post not found")
+                sendErrorMessage(t('post.load.error'));
+                history.push('/');
             }
         }
-    }, [getPost, post, posts, setPost])
+    }, [getPost, history, post, posts, sendErrorMessage, setPost, t])
     return (
         <main>
-            <Container maxWidth="lg">
-                <PostData post={post} isEdit={true} />
-            </Container>
+            <Fade in={true}>
+                <Container maxWidth="lg">
+                    <PostData post={post} isEdit={true} />
+                </Container>
+            </Fade>
         </main>
     )
 }

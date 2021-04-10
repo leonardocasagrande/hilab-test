@@ -1,0 +1,58 @@
+{
+    "header": {
+        "title": "Hilab Front-End Test"
+    },
+    "nav": {
+        "search": "Search",
+        "add": "Add"
+    },
+    "post": {
+        "edit": "Edit Post",
+        "add": "Add Post",
+        "form": {
+            "title": "Title",
+            "description": "Description",
+            "date": "Date",
+            "category": "Category",
+            "save": "Save",
+            "error": {
+                "title": "Title is required",
+                "date": "Date is required",
+                "category": "Category is required"
+            }
+        },
+        "load": {
+            "error": "Post does not exist"
+        },
+        "success": {
+            "add": "Post added successfully",
+            "edit": "Post edited successfully",
+            "delete": "Post deleted successfully"
+        }
+    },
+    "table": {
+        "title": "Post Listing",
+        "header": {
+            "title": "Title",
+            "description": "Description",
+            "date": "Date",
+            "category": "Category",
+            "actions": "Actions"
+        },
+        "rows-per-page": "Rows per page",
+        "tooltip": {
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    },
+    "alert": {
+        "error": "Error",
+        "info": "Info"
+    },
+    "spinner": {
+        "loading": "Loading...",
+        "sending": "Sending...",
+        "deleting": "Deleting...",
+        "editing": "Editing..."
+    }
+}

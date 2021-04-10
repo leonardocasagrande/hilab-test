@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography, Paper, TableFooter, TablePagination } from "@material-ui/core";
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography, Paper, TableFooter, TablePagination, Tooltip } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import classes from './PostList.module.css';
@@ -7,12 +7,15 @@ import { useHistory } from "react-router-dom";
 import { PostsContext } from "../contexts/PostsContext";
 import { formatDate } from "../shared/utilities";
 import { getCategoryById } from "../shared/categoryOptions";
+import { useTranslation } from "react-i18next";
 
 
 export default function PostList(props) {
     const { posts, deletePost } = useContext(PostsContext);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const { t } = useTranslation('common');
 
     const history = useHistory();
 
@@ -42,18 +45,18 @@ export default function PostList(props) {
             <Paper className={classes.Paper} >
                 <Toolbar className={classes.Toolbar}>
                     <Typography variant="h6" color="textSecondary">
-                        Post Listing
+                        {t('table.title')}
                     </Typography>
                 </Toolbar>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Título</TableCell>
-                                <TableCell>Descrição</TableCell>
-                                <TableCell>Data</TableCell>
-                                <TableCell>Categoria</TableCell>
-                                <TableCell>Ações</TableCell>
+                                <TableCell>{t('table.header.title')}</TableCell>
+                                <TableCell>{t('table.header.description')}</TableCell>
+                                <TableCell>{t('table.header.date')}</TableCell>
+                                <TableCell>{t('table.header.category')}</TableCell>
+                                <TableCell>{t('table.header.actions')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -67,14 +70,18 @@ export default function PostList(props) {
                                     </TableCell>
                                     <TableCell >{row.description}</TableCell>
                                     <TableCell >{formatDate(row.date)}</TableCell>
-                                    <TableCell>{getCategoryById(row.category)}</TableCell>
+                                    <TableCell>{t(getCategoryById(row.category))}</TableCell>
                                     <TableCell>
-                                        <IconButton onClick={() => deletePostHandler(row.id)} aria-label="delete">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => editPostHandler(row.id)} aria-label="edit">
-                                            <EditIcon />
-                                        </IconButton>
+                                        <Tooltip title={t('table.tooltip.edit')} arrow>
+                                            <IconButton onClick={() => editPostHandler(row.id)} aria-label="edit">
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title={t('table.tooltip.delete')} arrow>
+                                            <IconButton onClick={() => deletePostHandler(row.id)} aria-label="delete">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -83,7 +90,8 @@ export default function PostList(props) {
                             <TableRow>
                                 <TablePagination
                                     rowsPerPageOptions={[3, 5, 10, 25, { label: 'All', value: -1 }]}
-                                    colSpan={3}
+                                    colSpan={5}
+                                    labelRowsPerPage={t('table.rows-per-page')}
                                     count={posts.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}

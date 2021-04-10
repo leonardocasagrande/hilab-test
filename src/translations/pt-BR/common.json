@@ -1,0 +1,9 @@
+{
+    "header": {
+        "title": "Teste de Front-End da Hilab"
+    },
+    "nav": {
+        "search": "Pesquisar",
+        "add": "Adicionar"
+    }
+}

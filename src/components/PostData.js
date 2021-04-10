@@ -5,6 +5,8 @@ import 'date-fns';
 import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/pickers';
+import { useTranslation } from "react-i18next";
+
 
 
 import { PostsContext } from "../contexts/PostsContext";
@@ -16,6 +18,8 @@ import { useForm, Controller } from "react-hook-form";
 export const PostData = ({isEdit, post}) => {
 
     const { addPost, editPost } = useContext(PostsContext);
+
+    const {t} = useTranslation('common');
 
     const {
         control,
@@ -48,7 +52,7 @@ export const PostData = ({isEdit, post}) => {
     return (
         <Paper className={classes.Paper} >
             <Typography variant="h6" color="textSecondary" className={classes.Title}>
-                {isEdit ? 'Edit Post' : 'Add Post'}
+                {isEdit ? t('post.edit') : t('post.add')}
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
@@ -57,7 +61,7 @@ export const PostData = ({isEdit, post}) => {
                     control={control}
                     render={({ field }) =>
                         <TextField
-                            label="Título"
+                            label={t('post.form.title')}
                             fullWidth
                             InputLabelProps={{
                                 shrink: true,
@@ -65,13 +69,13 @@ export const PostData = ({isEdit, post}) => {
                             {...field} />}>
 
                 </Controller>
-                {errors?.title?.type === "required" && <p className={classes.Error}>Title is required</p>}
+                {errors?.title?.type === "required" && <p className={classes.Error}>{t('post.form.error.title')}</p>}
                 <Controller
                     name="description"
                     control={control}
                     render={({ field }) =>
                         <TextField
-                            label="Descrição"
+                            label={t('post.form.description')}
                             fullWidth
                             multiline
                             rows={7}
@@ -90,7 +94,7 @@ export const PostData = ({isEdit, post}) => {
                         render={({ field: { ref, ...rest } }) =>
                             <KeyboardDatePicker
                                 margin="normal"
-                                label="Data"
+                                label={t('post.form.date')}
                                 fullWidth
                                 format="dd/MM/yyyy"
                                 InputLabelProps={{
@@ -102,7 +106,7 @@ export const PostData = ({isEdit, post}) => {
                                 {...rest} />}>
                     </Controller>
                 </MuiPickersUtilsProvider>
-                {errors?.date?.type === "required" && <p className={classes.Error}>Date is required</p>}
+                {errors?.date?.type === "required" && <p className={classes.Error}>{t('post.form.error.date')}</p>}
                 <Controller
                     name="category"
                     control={control}
@@ -112,19 +116,19 @@ export const PostData = ({isEdit, post}) => {
                             id="standard-select-currency"
                             select
                             fullWidth
-                            label="Categoria"
+                            label={t('post.form.category')}
                             InputLabelProps={{
                                 shrink: true,
                             }}
                             {...field} >
                             {categoryOptions.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
+                                    {t(option.label)}
                                 </MenuItem>
                             ))}
                         </TextField>}
                 />
-                {errors?.category?.type === "required" && <p className={classes.Error}>Category is required</p>}
+                {errors?.category?.type === "required" && <p className={classes.Error}>{t('post.form.error.category')}</p>}
 
                 < Button
                     style={{ marginTop: '15px' }}
@@ -132,7 +136,7 @@ export const PostData = ({isEdit, post}) => {
                     color="primary"
                     type="submit"
                     startIcon={<SaveIcon />}>
-                    Save
+                    {t('post.form.save')}
                 </Button>
             </form>
         </Paper >
