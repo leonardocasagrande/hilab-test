@@ -6,15 +6,19 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/pickers';
 import { useTranslation } from "react-i18next";
-
-
-
-import { PostsContext } from "../contexts/PostsContext";
-import SaveIcon from '@material-ui/icons/Save';
-import classes from './PostData.module.css';
-import { categoryOptions } from "../shared/categoryOptions";
 import { useForm, Controller } from "react-hook-form";
 
+import { PostsContext } from "../../contexts/PostsContext";
+import SaveIcon from '@material-ui/icons/Save';
+import classes from './PostData.module.css';
+import { categoryOptions } from "../../shared/categoryOptions";
+
+/**
+ * Componente de formulário de criação/edição de posts.
+ * @param {Boolean} isEdit Se é modo edição 
+ * @param {Object} post Post sendo editado
+ * @returns Componente de formulário de criação/edição de posts.
+ */
 export const PostData = ({isEdit, post}) => {
 
     const { addPost, editPost } = useContext(PostsContext);
@@ -57,7 +61,7 @@ export const PostData = ({isEdit, post}) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
                     name="title"
-                    rules={{ required: true }}
+                    rules={{ required: true, maxLength: 32 }}
                     control={control}
                     render={({ field }) =>
                         <TextField
@@ -69,10 +73,12 @@ export const PostData = ({isEdit, post}) => {
                             {...field} />}>
 
                 </Controller>
-                {errors?.title?.type === "required" && <p className={classes.Error}>{t('post.form.error.title')}</p>}
+                {errors?.title?.type === "required" && <p className={classes.Error}>{t('post.form.error.title.required')}</p>}
+                {errors?.title?.type === "maxLength" && <p className={classes.Error}>{t('post.form.error.title.maxlength')}</p>}
                 <Controller
                     name="description"
                     control={control}
+                    rules={{maxLength: 128}}
                     render={({ field }) =>
                         <TextField
                             label={t('post.form.description')}
@@ -84,6 +90,7 @@ export const PostData = ({isEdit, post}) => {
                             }}
                             {...field} />}>
                 </Controller>
+                {errors?.description?.type === "maxLength" && <p className={classes.Error}>{t('post.form.error.description.maxlength')}</p>}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Controller
                         name="date"

@@ -3,9 +3,13 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { PostsContext } from "../contexts/PostsContext";
-import { PostData } from "./PostData";
+import { PostData } from "../components/PostData/PostData";
 
-export default function UpdateContainer() {
+/**
+ * Página de atualização de post.
+ * @returns Componente react para página de atualização de post.
+ */
+export default function UpdatePage() {
     const { posts, getPost, sendErrorMessage } = useContext(PostsContext);
     const [post, setPost] = useState(null);
     const history = useHistory();

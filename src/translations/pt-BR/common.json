@@ -5,5 +5,67 @@
     "nav": {
         "search": "Pesquisar",
         "add": "Adicionar"
+    },
+    "post": {
+        "edit": "Editar Post",
+        "add": "Adicionar Post",
+        "form": {
+            "title": "Título",
+            "description": "Descrição",
+            "date": "Data",
+            "category": "Categoria",
+            "save": "Salvar",
+            "error": {
+                "title": {
+                    "required": "Título é obrigatório",
+                    "maxlength": "Tamanho máximo do título excedido"
+                },
+                "description": {
+                    "maxlength": "Tamanho máximo da descrição excedida"
+                },
+                "date": "Data é obrigatória",
+                "category": "Categoria é obrigatória"
+            }
+        },
+        "load": {
+            "error": "Post não existe"
+        },
+        "success": {
+            "add": "Post adicionado com sucesso",
+            "edit": "Post editado com sucesso",
+            "delete": "Post removido com sucesso"
+        }
+    },
+    "table": {
+        "title": "Listagem de Posts",
+        "header": {
+            "title": "Título",
+            "description": "Descrição",
+            "date": "Data",
+            "category": "Categoria",
+            "actions": "Ações"
+        },
+        "rows-per-page": "Linhas por página",
+        "tooltip": {
+            "edit": "Editar",
+            "delete": "Remover"
+        }
+    },
+    "alert": {
+        "error": "Erro",
+        "info": "Informação"
+    },
+    "spinner": {
+        "loading": "Carregando...",
+        "sending": "Enviando...",
+        "deleting": "Removendo...",
+        "editing": "Editando..."
+    },
+    "category": {
+        "1": "Categoria 1",
+        "2": "Categoria 2",
+        "3": "Categoria 3",
+        "4": "Categoria 4",
+        "5": "Categoria 5"
     }
 }

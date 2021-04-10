@@ -1,12 +1,16 @@
 import { Container, Fade } from "@material-ui/core";
-import { PostData } from "./PostData";
+import PostList from "../components/PostList/PostList";
 
-export default function CreateContainer() {
+/**
+ * Página de busca de posts.
+ * @returns Componente React de página de busca de posts.
+ */
+export default function SearchPage() {
     return (
         <main>
             <Fade in={true}>
                 <Container maxWidth="lg">
-                    <PostData />
+                    <PostList />
                 </Container>
             </Fade>
         </main>

@@ -7,7 +7,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import common_pt_BR from "./translations/pt-BR/common.json";
 import common_en from "./translations/en/common.json";
 
@@ -36,8 +35,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

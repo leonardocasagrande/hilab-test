@@ -2,9 +2,14 @@ import { createContext, useState } from "react";
 
 export const LoadingContext = createContext({});
 
-export function LoadingProvider({children, ...rest}) {
-    const [loading, setLoading] = useState(rest.loading ?? false);
-    const [message, setMessage] = useState(rest.message ?? '');
+/**
+ * Provedor de informações de carregamento da aplicação.
+ * @param {ReactChildren} children Componentes filhos
+ * @returns Provedor de carregamento.
+ */
+export function LoadingProvider({children}) {
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
 
     return(
         <LoadingContext.Provider value={{

@@ -4,7 +4,7 @@
     },
     "nav": {
         "search": "Search",
-        "add": "Add"
+        "add": "Add Post"
     },
     "post": {
         "edit": "Edit Post",
@@ -16,7 +16,13 @@
             "category": "Category",
             "save": "Save",
             "error": {
-                "title": "Title is required",
+                "title": {
+                    "required": "Title is required",
+                    "maxlength": "Title max length surpassed"
+                },
+                "description": {
+                    "maxlength": "Description max length surpassed"
+                },
                 "date": "Date is required",
                 "category": "Category is required"
             }
@@ -54,5 +60,12 @@
         "sending": "Sending...",
         "deleting": "Deleting...",
         "editing": "Editing..."
+    },
+    "category": {
+        "1": "Category 1",
+        "2": "Category 2",
+        "3": "Category 3",
+        "4": "Category 4",
+        "5": "Category 5"
     }
 }

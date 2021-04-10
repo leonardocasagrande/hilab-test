@@ -1,9 +1,9 @@
 export const categoryOptions = [
-    { value: 1, label: 'Categoria 1' },
-    { value: 2, label: 'Categoria 2' },
-    { value: 3, label: 'Categoria 3' },
-    { value: 4, label: 'Categoria 4' },
-    { value: 5, label: 'Categoria 5' },
+    { value: 1, label: 'category.1' },
+    { value: 2, label: 'category.2' },
+    { value: 3, label: 'category.3' },
+    { value: 4, label: 'category.4' },
+    { value: 5, label: 'category.5' },
 ]
 
 export const getCategoryById = (id) => {

@@ -4,11 +4,15 @@ import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 import { useContext, useEffect } from 'react';
 import { AlertTitle } from '@material-ui/lab';
-import { PostsContext } from '../contexts/PostsContext';
+import { PostsContext } from '../../contexts/PostsContext';
 
-import classes from './AlertContainer.module.css';
+import classes from './Alerts.module.css';
 
-export default function AlertContainer() {
+/**
+ * Componente para exibição de alertas da aplicação.
+ * @returns Componente de alertas.
+ */
+export default function Alerts() {
     const { openAlert,
         alertTitle,
         alertMessage,

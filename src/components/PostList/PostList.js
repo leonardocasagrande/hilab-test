@@ -4,14 +4,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import classes from './PostList.module.css';
 import { useHistory } from "react-router-dom";
-import { PostsContext } from "../contexts/PostsContext";
-import { formatDate } from "../shared/utilities";
-import { getCategoryById } from "../shared/categoryOptions";
+import { PostsContext } from "../../contexts/PostsContext";
+import { formatDate } from "../../shared/utilities";
+import { getCategoryById } from "../../shared/categoryOptions";
 import { useTranslation } from "react-i18next";
+import { ScreenSizeContext } from "../../contexts/ScreenSizeContext";
 
-
-export default function PostList(props) {
+/**
+ * Componente de controle de lista de posts.
+ * @returns Componente de controle de lista de posts.
+ */
+export default function PostList() {
     const { posts, deletePost } = useContext(PostsContext);
+    const { isMobile } = useContext(ScreenSizeContext);
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -53,8 +59,12 @@ export default function PostList(props) {
                         <TableHead>
                             <TableRow>
                                 <TableCell>{t('table.header.title')}</TableCell>
-                                <TableCell>{t('table.header.description')}</TableCell>
-                                <TableCell>{t('table.header.date')}</TableCell>
+                                {!isMobile && (
+                                    <>
+                                        <TableCell>{t('table.header.description')}</TableCell>
+                                        <TableCell>{t('table.header.date')}</TableCell>
+                                    </>
+                                )}
                                 <TableCell>{t('table.header.category')}</TableCell>
                                 <TableCell>{t('table.header.actions')}</TableCell>
                             </TableRow>
@@ -68,8 +78,12 @@ export default function PostList(props) {
                                     <TableCell component="th" scope="row">
                                         {row.title}
                                     </TableCell>
-                                    <TableCell >{row.description}</TableCell>
-                                    <TableCell >{formatDate(row.date)}</TableCell>
+                                    {!isMobile && (
+                                        <>
+                                            <TableCell style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{row.description}</TableCell>
+                                            <TableCell >{formatDate(row.date)}</TableCell>
+                                        </>
+                                    )}
                                     <TableCell>{t(getCategoryById(row.category))}</TableCell>
                                     <TableCell>
                                         <Tooltip title={t('table.tooltip.edit')} arrow>

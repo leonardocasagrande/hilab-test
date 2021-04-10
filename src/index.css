@@ -8,20 +8,9 @@ body {
   color: #717171;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 :root {
-  --white: #FFFFFF;
-  --background: #E5E5E5;
   --primary:#6EC1E4;
   --secondary: #54595F;
-  --text-labels: #8E8E8E;
   --text: #555555;
   --links: gray;
-  --button-active: #167ABC;
-  --button-not-active: #F5F5F5;
-  --borders: #00000033;
 }

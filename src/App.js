@@ -1,31 +1,35 @@
-import { ThemeProvider } from '@material-ui/core';
-import { Header } from './components/Layout/Header';
-import SearchContainer from './components/SearchContainer';
-import { Spinner } from './components/Spinner';
-import { LoadingProvider } from './contexts/LoadingContext';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import CreateContainer from './components/CreateContainer';
+import { ThemeProvider } from '@material-ui/core';
+
+import { Header } from './components/Navigation/Header/Header';
+import { Spinner } from './components/Spinner/Spinner';
+import { LoadingProvider } from './contexts/LoadingContext';
 import { PostsProvider } from './contexts/PostsContext';
-import UpdateContainer from './components/UpdateContainer';
-import AlertContainer from './components/AlertContainer';
+import AlertContainer from './components/Alerts/Alerts';
 import { theme } from './shared/theme'
+import { ScreenSizeProvider } from './contexts/ScreenSizeContext';
+import CreatePage from './pages/CreatePage';
+import UpdatePage from './pages/UpdatePage';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <LoadingProvider>
+      <ScreenSizeProvider>
         <Header />
-        <PostsProvider>
-          <AlertContainer />
-          <Switch>
-            <Route path="/post/new" component={CreateContainer} />
-            <Route path="/post" component={UpdateContainer} />
-            <Route exact path="/" component={SearchContainer} />
-            <Redirect to="/" />
-          </Switch>
-        </PostsProvider>
-        <Spinner />
-      </LoadingProvider>
+        <LoadingProvider>
+          <PostsProvider>
+            <AlertContainer />
+            <Switch>
+              <Route path="/post/new" component={CreatePage} />
+              <Route path="/post" component={UpdatePage} />
+              <Route exact path="/" component={SearchPage} />
+              <Redirect to="/" />
+            </Switch>
+            <Spinner />
+          </PostsProvider>
+        </LoadingProvider>
+      </ScreenSizeProvider>
     </ThemeProvider>
   );
 }

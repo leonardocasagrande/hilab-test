@@ -8,6 +8,11 @@ import { LoadingContext } from "./LoadingContext";
 
 export const PostsContext = createContext({});
 
+/**
+ * Provedor de informações relativas a posts e alertas.
+ * @param {ReactChildren} children Componentes filhos
+ * @returns Provedor de posts.
+ */
 export function PostsProvider({ children }) {
 
     const { setLoading, setMessage } = useContext(LoadingContext);
