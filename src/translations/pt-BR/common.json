@@ -12,7 +12,7 @@
         "form": {
             "title": "Título",
             "description": "Descrição",
-            "date": "Data",
+            "date": "Data de Publicação",
             "category": "Categoria",
             "save": "Salvar",
             "error": {
@@ -23,7 +23,7 @@
                 "description": {
                     "maxlength": "Tamanho máximo da descrição excedida"
                 },
-                "date": "Data é obrigatória",
+                "date": "Data de Publicação é obrigatória",
                 "category": "Categoria é obrigatória"
             }
         },
@@ -46,7 +46,7 @@
         "header": {
             "title": "Título",
             "description": "Descrição",
-            "date": "Data",
+            "date": "Data de Publicação",
             "category": "Categoria",
             "actions": "Ações"
         },
