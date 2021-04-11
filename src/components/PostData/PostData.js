@@ -7,11 +7,10 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/pickers';
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
+import SaveIcon from '@material-ui/icons/Save';
 
 import { PostsContext } from "../../contexts/PostsContext";
-import SaveIcon from '@material-ui/icons/Save';
 import classes from './PostData.module.css';
-import { categoryOptions } from "../../shared/categoryOptions";
 
 /**
  * Componente de formulário de criação/edição de posts.
@@ -19,11 +18,11 @@ import { categoryOptions } from "../../shared/categoryOptions";
  * @param {Object} post Post sendo editado
  * @returns Componente de formulário de criação/edição de posts.
  */
-export const PostData = ({isEdit, post}) => {
+export const PostData = ({ isEdit, post }) => {
 
-    const { addPost, editPost } = useContext(PostsContext);
+    const { addPost, editPost, categories } = useContext(PostsContext);
 
-    const {t} = useTranslation('common');
+    const { t } = useTranslation('common');
 
     const {
         control,
@@ -39,7 +38,7 @@ export const PostData = ({isEdit, post}) => {
     });
 
     useEffect(() => {
-        if(post) {
+        if (post) {
             reset(post)
         }
     }, [post])
@@ -71,14 +70,13 @@ export const PostData = ({isEdit, post}) => {
                                 shrink: true,
                             }}
                             {...field} />}>
-
                 </Controller>
                 {errors?.title?.type === "required" && <p className={classes.Error}>{t('post.form.error.title.required')}</p>}
                 {errors?.title?.type === "maxLength" && <p className={classes.Error}>{t('post.form.error.title.maxlength')}</p>}
                 <Controller
                     name="description"
                     control={control}
-                    rules={{maxLength: 128}}
+                    rules={{ maxLength: 256 }}
                     render={({ field }) =>
                         <TextField
                             label={t('post.form.description')}
@@ -120,7 +118,6 @@ export const PostData = ({isEdit, post}) => {
                     rules={{ required: true }}
                     render={({ field }) =>
                         <TextField
-                            id="standard-select-currency"
                             select
                             fullWidth
                             label={t('post.form.category')}
@@ -128,16 +125,15 @@ export const PostData = ({isEdit, post}) => {
                                 shrink: true,
                             }}
                             {...field} >
-                            {categoryOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                            {categories ? categories.map((option) => (
+                                <MenuItem key={option.id} value={option.id}>
                                     {t(option.label)}
                                 </MenuItem>
-                            ))}
+                            )) : <MenuItem />}
                         </TextField>}
                 />
                 {errors?.category?.type === "required" && <p className={classes.Error}>{t('post.form.error.category')}</p>}
-
-                < Button
+                <Button
                     style={{ marginTop: '15px' }}
                     variant="contained"
                     color="primary"

@@ -34,6 +34,11 @@
             "add": "Post added successfully",
             "edit": "Post edited successfully",
             "delete": "Post deleted successfully"
+        },
+        "filter": {
+            "title": "Title",
+            "category": "Category",
+            "select": "Select..."
         }
     },
     "table": {
@@ -49,7 +54,8 @@
         "tooltip": {
             "edit": "Edit",
             "delete": "Delete"
-        }
+        },
+        "norecords": "No records were found"
     },
     "alert": {
         "error": "Error",
@@ -62,10 +68,9 @@
         "editing": "Editing..."
     },
     "category": {
-        "1": "Category 1",
-        "2": "Category 2",
-        "3": "Category 3",
-        "4": "Category 4",
-        "5": "Category 5"
+        "1": "Whole Blood / Serum / Plasma",
+        "2": "Whole Blood",
+        "3": "Nasopharyngeal secretion",
+        "4": "Spittle or nasopharyngeal secretion"
     }
 }

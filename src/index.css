@@ -14,3 +14,11 @@ body {
   --text: #555555;
   --links: gray;
 }
+
+.MuiTablePagination-caption {
+  max-width: 25%;
+}
+
+.MuiTablePagination-actions {
+  margin-left: 0 !important;
+}

@@ -1,0 +1,24 @@
+.Form {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-flow: row;
+    margin-bottom: 10px;
+}
+
+.FilterTitle {
+    width: 100%;
+}
+
+.FilterCategory {
+    width: 50%;
+}
+
+@media (max-width: 600px) {
+    .Form {
+        flex-flow: column;
+    }
+    .FilterCategory {
+        width: 100%;
+    }
+}

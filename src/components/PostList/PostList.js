@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography, Paper, TableFooter, TablePagination, Tooltip } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -6,27 +6,42 @@ import classes from './PostList.module.css';
 import { useHistory } from "react-router-dom";
 import { PostsContext } from "../../contexts/PostsContext";
 import { formatDate } from "../../shared/utilities";
-import { getCategoryById } from "../../shared/categoryOptions";
 import { useTranslation } from "react-i18next";
 import { ScreenSizeContext } from "../../contexts/ScreenSizeContext";
+import { PostFilters } from "../PostFilters/PostFilters";
 
 /**
  * Componente de controle de lista de posts.
  * @returns Componente de controle de lista de posts.
  */
 export default function PostList() {
-    const { posts, deletePost } = useContext(PostsContext);
+    const { posts, deletePost, getCategoryById } = useContext(PostsContext);
     const { isMobile } = useContext(ScreenSizeContext);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [filteredPosts, setFilteredPosts] = useState(null);
 
     const { t } = useTranslation('common');
 
     const history = useHistory();
 
+    useEffect(() => {
+        setFilteredPosts(posts);
+    }, [posts])
+
     const deletePostHandler = (id) => {
         deletePost(id);
+    }
+
+    const filterData = (title, category) => {
+        let filteredData = posts.filter
+            (post => post.title.includes(title));
+        if (category) {
+            filteredData = filteredData.filter(post => post.category === category);
+        }
+        setFilteredPosts(filteredData);
+        setPage(0);
     }
 
     const editPostHandler = (id) => {
@@ -46,14 +61,15 @@ export default function PostList() {
     };
 
     let content = null;
-    if (posts) {
+    if (filteredPosts) {
         content = (
-            <Paper className={classes.Paper} >
+            <>
                 <Toolbar className={classes.Toolbar}>
                     <Typography variant="h6" color="textSecondary">
                         {t('table.title')}
                     </Typography>
                 </Toolbar>
+                <PostFilters filterData={filterData} />
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -71,8 +87,8 @@ export default function PostList() {
                         </TableHead>
                         <TableBody>
                             {(rowsPerPage > 0
-                                ? posts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : posts
+                                ? filteredPosts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : filteredPosts
                             ).map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
@@ -99,14 +115,21 @@ export default function PostList() {
                                     </TableCell>
                                 </TableRow>
                             ))}
+                            {filteredPosts.length === 0 && (
+                                <TableRow>
+                                    <TableCell colSpan={isMobile ? 3 : 5}>
+                                        {t('table.norecords')}
+                                    </TableCell>
+                                </TableRow>)}
                         </TableBody>
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
                                     rowsPerPageOptions={[3, 5, 10, 25, { label: 'All', value: -1 }]}
-                                    colSpan={5}
+                                    colSpan={isMobile ? 3 : 5}
                                     labelRowsPerPage={t('table.rows-per-page')}
-                                    count={posts.length}
+                                    count={filteredPosts.length}
+                                    labelDisplayedRows={({ from, to, count }) => null}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onChangePage={handleChangePage}
@@ -116,6 +139,13 @@ export default function PostList() {
                         </TableFooter>
                     </Table>
                 </TableContainer>
+            </>
+        )
+    }
+    if (!isMobile) {
+        content = (
+            <Paper className={classes.Paper} >
+                {content}
             </Paper>
         )
     }

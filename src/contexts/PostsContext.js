@@ -16,6 +16,7 @@ export const PostsContext = createContext({});
 export function PostsProvider({ children }) {
 
     const { setLoading, setMessage } = useContext(LoadingContext);
+    const [categories, setCategories] = useState(null);
     const [posts, setPosts] = useState(null);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertTitle, setAlertTitle] = useState('');
@@ -23,13 +24,13 @@ export function PostsProvider({ children }) {
     const [alertSeverity, setAlertSeverity] = useState('info');
     const history = useHistory();
 
-    const {t} = useTranslation('common');
+    const { t } = useTranslation('common');
 
 
     const loadError = (err) => {
         setLoading(false);
         setMessage("");
-        sendErrorMessage(err)
+        sendErrorMessage(err);
     }
 
     const sendErrorMessage = (message) => {
@@ -46,23 +47,48 @@ export function PostsProvider({ children }) {
         setAlertSeverity('info');
     }
 
+    const getCategoryById = (id) => {
+        if (categories) {
+            const list = categories.filter(el => el.id === id);
+            if (list) {
+                return list[0].label;
+            }
+        }
+        return null;
+    }
 
-    useEffect(() => {
-        setLoading(true);
-        setMessage(t('spinner.loading'))
-        axios.get("https://api.mocki.io/v1/686c69d6")
+    const fetchCategories = async () => {
+        axios.get("https://api.mocki.io/v1/645caa45")
             .then(res => {
-                setLoading(false);
-                setMessage("")
+                setCategories(res.data);
+            })
+            .catch(err => {
+                loadError(err.message);
+            })
+    }
+
+    const fetchPosts = async () => {
+        axios.get("https://api.mocki.io/v1/d3c7cee2")
+            .then(res => {
                 const data = res.data;
                 data.forEach(el => {
                     el.date = new Date(el.date);
                 })
                 setPosts(data);
+                setLoading(false);
+                setMessage("")
             })
             .catch(err => {
                 loadError(err.message);
             })
+    }
+
+
+    useEffect(async () => {
+        setLoading(true);
+        setMessage(t('spinner.loading'));
+        await fetchCategories();
+        await fetchPosts();
     }, [setLoading, setMessage])
 
     const deletePost = (id) => {
@@ -80,7 +106,6 @@ export function PostsProvider({ children }) {
 
     const addPost = (data) => {
         let savedData = { ...data, date: formatDateToSave(data.date) };
-        console.log(savedData);
         setLoading(true);
         setMessage(t('spinner.sending'));
         axios.post("https://api.mocki.io/v1/7144e671", savedData)
@@ -96,7 +121,6 @@ export function PostsProvider({ children }) {
 
     const editPost = (data) => {
         let savedData = { ...data, date: formatDateToSave(data.date) };
-        console.log(savedData);
         setLoading(true);
         setMessage(t('spinner.editing'));
         axios.put("https://api.mocki.io/v1/43c8de16", savedData)
@@ -104,7 +128,6 @@ export function PostsProvider({ children }) {
                 setLoading(false);
                 setMessage("");
                 const updatedPosts = posts.filter(el => el.id !== data.id);
-                console.log(updatedPosts)
                 setPosts([...updatedPosts, data]);
                 history.push('/');
                 sendInfoMessage(t('post.success.edit'))
@@ -127,12 +150,14 @@ export function PostsProvider({ children }) {
             alertTitle,
             alertMessage,
             alertSeverity,
+            categories,
             deletePost,
             addPost,
             getPost,
             editPost,
             setOpenAlert,
-            sendErrorMessage
+            sendErrorMessage,
+            getCategoryById
         }}>
             {children}
         </PostsContext.Provider>

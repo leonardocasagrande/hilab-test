@@ -34,6 +34,11 @@
             "add": "Post adicionado com sucesso",
             "edit": "Post editado com sucesso",
             "delete": "Post removido com sucesso"
+        },
+        "filter": {
+            "title": "Título",
+            "category": "Categoria",
+            "select": "Selecione..."
         }
     },
     "table": {
@@ -49,7 +54,8 @@
         "tooltip": {
             "edit": "Editar",
             "delete": "Remover"
-        }
+        },
+        "norecords": "Nenhum registro foi encontrado"
     },
     "alert": {
         "error": "Erro",
@@ -62,10 +68,9 @@
         "editing": "Editando..."
     },
     "category": {
-        "1": "Categoria 1",
-        "2": "Categoria 2",
-        "3": "Categoria 3",
-        "4": "Categoria 4",
-        "5": "Categoria 5"
+        "1": "Sangue total/Soro/Plasma",
+        "2": "Sangue total",
+        "3": "Secreção de nasofaringe",
+        "4": "Saliva ou secreção de nasofaringe"
     }
 }
